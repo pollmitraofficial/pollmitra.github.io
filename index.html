@@ -8,14 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-/* COLOR PALETTE TUNED FOR DARK MOUNTAIN BG */
 :root {
   --white: #e8f1f6;
   --accent: #91d2ff;
   --muted: #b8c8d6;
 }
 
-/* RESET */
 html,body {
   margin:0;
   height:100%;
@@ -24,22 +22,19 @@ html,body {
   color:var(--white);
 }
 
-/* BACKGROUND */
 .bg {
   position:fixed; inset:0; z-index:0;
   background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2400&auto=format&fit=crop');
   background-size:cover;
   background-position:center;
-  filter:brightness(0.75) contrast(1);
+  filter:brightness(0.75);
 }
 
-/* DARK OVERLAY */
 .overlay {
   position:fixed; inset:0; z-index:1;
   background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.72));
 }
 
-/* BRAND TOP */
 .brand {
   position:fixed; top:24px; left:32px; z-index:3;
   font-weight:600; letter-spacing:2px;
@@ -48,20 +43,18 @@ html,body {
   font-size:14px;
 }
 
-/* CENTER WRAPPER */
 .wrapper {
   position:relative; z-index:3; 
   display:flex; justify-content:center; align-items:center;
   height:100vh; padding:20px; text-align:center;
 }
 
-/* ANIMATED HEADING */
+/* SHINY GRADIENT HEADING */
 h1 {
   font-family:"Playfair Display", serif;
-  font-size:70px;
-  letter-spacing:1px;
-  margin:0 0 18px 0;
-  background: linear-gradient(90deg, #cce7ff, #ffffff, #cce7ff);
+  font-size:68px;
+  margin:0 0 18px;
+  background: linear-gradient(90deg, #d8ecff, #ffffff, #d8ecff);
   background-size:200% auto;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
@@ -75,7 +68,7 @@ h1 {
 }
 
 .sub {
-  max-width:650px;
+  max-width:750px;
   margin:auto;
   font-size:20px;
   color:var(--muted);
@@ -84,47 +77,34 @@ h1 {
   opacity:0;
 }
 
-.highlight {
+.sectionline {
   margin-top:12px;
-  font-size:18px;
+  font-size:17px;
+  color:var(--muted);
+  animation: fadeUp 1.9s ease forwards;
+  opacity:0;
+}
+
+.slogan {
+  margin-top:20px;
+  font-size:22px;
   font-weight:600;
   color:var(--accent);
-  animation: fadeUp 2s ease forwards;
+  animation: fadeUp 2.2s ease forwards;
   opacity:0;
 }
 
 @keyframes fadeUp {
-  0% { opacity:0; transform:translateY(10px); }
+  0% { opacity:0; transform:translateY(12px); }
   100% { opacity:1; transform:translateY(0); }
 }
 
-/* FOOTER */
 footer {
   position:fixed; bottom:20px; left:0; right:0;
   text-align:center; 
   color:var(--muted);
   font-size:13px;
   z-index:3;
-}
-
-.socials {
-  margin-top:10px;
-}
-
-.socials a {
-  display:inline-flex;
-  width:40px; height:40px;
-  justify-content:center; align-items:center;
-  border-radius:8px;
-  text-decoration:none;
-  color:var(--white);
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.08);
-  margin:0 6px;
-  transition:0.3s;
-}
-.socials a:hover {
-  background:rgba(255,255,255,0.12);
 }
 
 @media(max-width:900px){
@@ -143,25 +123,26 @@ footer {
 
 <div class="wrapper">
   <div>
-    <h1>Launching Soon</h1>
+
+    <h1>Exciting Things Are Coming Your Way</h1>
 
     <p class="sub">
-      A smarter and simpler way to poll everything you love — from Entertainment to Sports, Tech & Lifestyle.
+      PollMitra — A smarter way to poll everything you love. Launching soon.
     </p>
 
-    <div class="highlight">
+    <div class="sectionline">
+      Entertainment • Sports • Tech • Lifestyle • More
+    </div>
+
+    <div class="slogan">
       Your Voice. Your Vote. Your Platform.
     </div>
+
   </div>
 </div>
 
 <footer>
   © PollMitra 2025  
-  <div class="socials">
-    <a href="#" aria-label="Instagram">I</a>
-    <a href="#" aria-label="YouTube">Y</a>
-    <a href="#" aria-label="LinkedIn">L</a>
-  </div>
 </footer>
 
 </body>

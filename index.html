@@ -5,159 +5,218 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>PollMitra — Coming Soon</title>
 <meta name="description" content="PollMitra — polls across Entertainment · Sports · Science · Tech — Coming Soon" />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
   :root{
-    --white: #e8f1f6;
-    --muted:#b8c8d6;
-    --accent: #8bdcff;
-    --glow: rgba(139,220,255,0.18);
+    --headline: #d5eaff;   /* Soft Ice Blue */
+    --accent:   #8bdcff;
+    --muted:    #97a9b8;
+    --glass:    rgba(255,255,255,0.06);
+    --glass-2:  rgba(255,255,255,0.03);
   }
   *{box-sizing:border-box}
-  html,body{height:100%;margin:0;background:#000;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--white);-webkit-font-smoothing:antialiased}
+  html,body{height:100%;margin:0;background:#000;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--headline);-webkit-font-smoothing:antialiased}
   a{color:inherit}
-  /* background image */
+
+  /* Background image */
   .bg {
     position:fixed; inset:0; z-index:0;
     background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2400&auto=format&fit=crop');
     background-size:cover; background-position:center;
+    filter:brightness(0.56) contrast(0.96) saturate(0.9);
     transform:translateZ(0);
-    will-change:transform;
-    filter:contrast(0.95) saturate(0.9) brightness(0.7);
-  }
-  .overlay {
-    position:fixed; inset:0; z-index:1; pointer-events:none;
-    background:linear-gradient(180deg, rgba(2,7,12,0.55), rgba(2,7,12,0.7));
+    will-change: transform;
   }
 
-  /* particle canvas sits above background */
-  canvas#particles {
-    position:fixed; inset:0; z-index:2; pointer-events:none;
-    display:block;
+  /* dim overlay */
+  .overlay {
+    position:fixed; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(2,7,12,0.60), rgba(2,7,12,0.82));
+    pointer-events:none;
   }
+
+  /* slow fog layers (CSS) */
+  .fog {
+    position:fixed; inset:0; z-index:2; pointer-events:none; overflow:hidden;
+  }
+  .fog .f1, .fog .f2 {
+    position:absolute; left:-10%; width:120%; height:80%;
+    background: radial-gradient(40% 60% at 20% 40%, rgba(255,255,255,0.06), rgba(255,255,255,0.00) 50%);
+    filter: blur(36px);
+    transform: translate3d(0,0,0);
+    opacity:0.85;
+    animation: floatFog 28s linear infinite;
+  }
+  .fog .f2 {
+    top:20%;
+    background: radial-gradient(50% 50% at 80% 60%, rgba(139,220,255,0.04), rgba(139,220,255,0.00) 40%);
+    filter: blur(52px);
+    opacity:0.7;
+    animation-duration: 36s;
+    animation-direction: reverse;
+  }
+  @keyframes floatFog {
+    0% { transform: translateX(-8%) translateY(0) scale(1); }
+    50% { transform: translateX(8%) translateY(-6%) scale(1.04); }
+    100% { transform: translateX(-8%) translateY(0) scale(1); }
+  }
+
+  /* Particles canvas sits above fog */
+  canvas#particles { position:fixed; inset:0; z-index:3; pointer-events:none; display:block; }
 
   /* UI wrapper */
-  .wrap { position:relative; z-index:3; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:40px 20px; text-align:center; }
   .brand {
-    position:fixed; top:20px; left:28px; z-index:5; font-weight:700; letter-spacing:2px; color:var(--white); opacity:0.95; font-size:15px;
-    font-family:Inter, sans-serif;
+    position:fixed; top:20px; left:28px; z-index:6;
+    font-family:Outfit, sans-serif; font-weight:700; letter-spacing:1.6px; color:var(--headline); font-size:15px;
   }
 
-  /* floating logo */
+  /* logo (intro + glow) */
   .logo {
-    position:fixed; top:18px; right:28px; z-index:5; width:80px; height:80px;
-    display:flex; align-items:center; justify-content:center;
-    filter:drop-shadow(0 12px 40px rgba(0,0,0,0.6));
-    transition: transform .35s cubic-bezier(.2,.9,.2,1);
-  }
-  .logo .mark {
-    width:68px; height:68px; border-radius:14px; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 10px 40px rgba(139,220,255,0.06), inset 0 1px 0 rgba(255,255,255,0.02);
-    position:relative; overflow:visible;
+    position:fixed; top:18px; right:26px; z-index:6; width:88px; height:88px;
+    display:flex; align-items:center; justify-content:center; pointer-events:auto;
     transform-origin:center;
   }
-  /* glow ring */
+  .logo .mark {
+    width:72px; height:72px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 18px 50px rgba(139,220,255,0.05), inset 0 1px 0 rgba(255,255,255,0.02);
+    position:relative; overflow:visible; transform-origin:center;
+  }
   .logo .ring {
-    position:absolute; inset:-16px; border-radius:22px; pointer-events:none;
-    background: radial-gradient(circle at 30% 30%, rgba(139,220,255,0.64), rgba(139,220,255,0.18) 22%, rgba(139,220,255,0.03) 44%, transparent 65%);
-    filter: blur(14px);
-    opacity:0.85;
-    transition: opacity .35s;
+    position:absolute; inset:-18px; border-radius:20px; pointer-events:none;
+    background: radial-gradient(circle at 30% 30%, rgba(139,220,255,0.66), rgba(139,220,255,0.22) 24%, rgba(139,220,255,0.03) 46%, transparent 65%);
+    filter: blur(14px); opacity:0.9; transition:opacity .35s;
   }
-  .logo .svg-icon { width:40px; height:40px; transform:translateZ(0); }
-
-  /* hero text */
-  .hero { max-width:1100px; width:100%; padding:80px 24px; box-sizing:border-box; }
-  h1 { font-family:"Playfair Display", serif; font-size:64px; margin:0 0 16px; line-height:1; letter-spacing:-0.02em;
-    background: linear-gradient(90deg, #d8ecff, #ffffff, #d8ecff);
-    background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    text-shadow:0 20px 60px rgba(2,8,12,0.6);
-    transform-origin:center; transition: transform .35s cubic-bezier(.2,.9,.2,1);
+  /* SVG stroke reveal */
+  svg.logo-svg path.reveal {
+    stroke: url(#gA);
+    stroke-width:6;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    fill:none;
+    stroke-dasharray: 260;
+    stroke-dashoffset: 260;
+    transition: stroke-dashoffset 1.2s cubic-bezier(.2,.9,.2,1);
   }
-  .sub { font-size:18px; color:var(--muted); margin:0 auto 12px; max-width:880px; line-height:1.6; transform-origin:center; transition: transform .35s cubic-bezier(.2,.9,.2,1); }
-  .sectionline { font-weight:600; color:var(--accent); margin-top:10px; letter-spacing:0.6px; opacity:0.95 }
+  /* after intro (added by JS) */
+  .logo.intro svg.logo-svg path.reveal { stroke-dashoffset: 0; }
 
-  /* small slogan */
-  .slogan { margin-top:22px; color:var(--muted); font-size:15px; display:block }
+  /* hero glass card */
+  .card {
+    position:relative; z-index:5; max-width:1100px; width:100%; margin:0 auto;
+    display:flex; align-items:center; justify-content:center; padding:56px 28px;
+    border-radius:18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 30px 90px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.02);
+    backdrop-filter: blur(8px) saturate(120%);
+    margin-top: 0;
+    text-align:center;
+  }
+  @media(max-width:900px){ .card{ padding:36px 18px } }
+
+  .hero { width:100%; display:block; }
+  h1 {
+    margin:0; font-family:Outfit, sans-serif; font-weight:800; font-size:64px; color:var(--headline);
+    text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  }
+  @media(max-width:900px){ h1{ font-size:36px } }
+
+  .lead {
+    margin:16px auto 0; max-width:880px; color:var(--muted); font-size:18px; line-height:1.6;
+    text-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  }
+
+  .sectionline {
+    margin-top:14px; color:var(--muted); font-weight:600; letter-spacing:0.5px;
+  }
+
+  /* slogan with neon underline */
+  .slogan {
+    margin-top:24px; font-family:Outfit, sans-serif; font-weight:700; font-size:20px; color:var(--accent);
+    position:relative; display:inline-block; padding-bottom:8px;
+  }
+  .slogan::after {
+    content:""; position:absolute; left:0; right:0; bottom:0; height:4px; border-radius:4px;
+    background: linear-gradient(90deg, rgba(139,220,255,0.12), rgba(139,220,255,0.28), rgba(255,255,255,0.1));
+    box-shadow: 0 6px 18px rgba(139,220,255,0.14), 0 0 26px rgba(139,220,255,0.06) inset;
+    transform-origin:left center;
+    transform: scaleX(0);
+    animation: neonSlide 1.6s cubic-bezier(.2,.9,.2,1) forwards 1s;
+  }
+  @keyframes neonSlide {
+    to { transform: scaleX(1); }
+  }
 
   /* footer */
-  footer { position:fixed; left:0; right:0; bottom:18px; z-index:5; text-align:center; color:var(--muted); font-size:13px }
+  footer { position:fixed; left:0; right:0; bottom:18px; z-index:6; text-align:center; color:var(--muted); font-size:13px; }
 
-  /* small responsive */
-  @media (max-width:900px){ h1{font-size:36px} .logo{width:64px;height:64px} .logo .mark{width:52px;height:52px} }
+  /* interactive subtle hover */
+  .card:hover h1{ transform: translateY(-4px) scale(1.01); transition:transform .3s ease; }
+  .card:hover .lead{ transform: translateY(-2px); transition:transform .35s ease; }
 
-  /* subtle float animation for logo */
-  @keyframes floaty { 0% { transform: translateY(0) } 50% { transform: translateY(-10px) } 100% { transform: translateY(0) } }
-  .logo { animation: floaty 6s ease-in-out infinite; }
-
-  /* heading shimmer */
-  @keyframes shine { from{background-position:0% 50%} to{background-position:100% 50%} }
-  h1 { animation: shine 5s linear infinite; }
-
-  /* interactive hover states */
-  .hero:hover h1 { transform: scale(1.02) translateY(-4px) }
-  .hero:hover .sub { transform: translateY(-2px) }
+  /* reduce motion */
+  @media (prefers-reduced-motion: reduce) {
+    .fog .f1, .fog .f2, .logo, svg.logo-svg path.reveal, .slogan::after { animation: none !important; transition: none !important; }
+  }
 </style>
 </head>
 <body>
 
   <div class="bg" id="bg"></div>
-  <div class="overlay"></div>
+  <div class="overlay" aria-hidden="true"></div>
 
-  <!-- particles canvas -->
+  <!-- slow fog -->
+  <div class="fog" aria-hidden="true">
+    <div class="f1"></div>
+    <div class="f2"></div>
+  </div>
+
+  <!-- particles -->
   <canvas id="particles"></canvas>
 
-  <div class="brand">PollMitra</div>
+  <!-- Brand -->
+  <div class="brand" aria-hidden="false">PollMitra</div>
 
-  <!-- floating glowing logo (custom PollMitra monogram) -->
-  <div class="logo" id="logoEl" title="PollMitra">
+  <!-- floating logo with intro -->
+  <div class="logo" id="logoEl" aria-hidden="false" role="img" aria-label="PollMitra logo">
     <div class="ring" aria-hidden="true"></div>
-    <div class="mark" role="img" aria-label="PollMitra logo">
-      <!-- PollMitra PM monogram SVG -->
-      <svg class="svg-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="false">
+    <div class="mark" aria-hidden="true">
+      <svg class="logo-svg" viewBox="0 0 100 100" width="56" height="56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <linearGradient id="gA" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stop-color="#9fe7ff"/>
-            <stop offset="1" stop-color="#7bc4ff"/>
-          </linearGradient>
-          <linearGradient id="gB" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/>
-            <stop offset="1" stop-color="#d8efff" stop-opacity="0.9"/>
+            <stop offset="0" stop-color="#d5eaff"/>
+            <stop offset="1" stop-color="#8bdcff"/>
           </linearGradient>
         </defs>
-
-        <!-- rounded square background stroke (thin) -->
-        <rect x="6" y="6" width="88" height="88" rx="16" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
-
-        <!-- P shape -->
-        <path d="M30 74 L30 28 Q30 22 36 22 L52 22 Q60 22 60 30 Q60 38 52 38 L44 38" fill="none" stroke="url(#gA)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-
-        <!-- M shape -->
-        <path d="M62 74 L62 34 L72 56 L82 34 L82 74" fill="none" stroke="url(#gB)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-
-        <!-- subtle inner glow -->
-        <ellipse cx="50" cy="50" rx="28" ry="28" fill="rgba(123,196,255,0.02)"></ellipse>
+        <!-- box outline -->
+        <rect x="4" y="4" width="92" height="92" rx="14" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+        <!-- P path (reveal) -->
+        <path class="reveal" d="M28 72 L28 28 Q28 22 36 22 L52 22 Q60 22 60 30 Q60 38 52 38 L44 38" />
+        <!-- M path (reveal) -->
+        <path class="reveal" d="M64 72 L64 32 L74 56 L84 32 L84 72" />
       </svg>
     </div>
   </div>
 
-  <!-- main content -->
-  <main class="wrap" role="main" aria-labelledby="title">
-    <section class="hero" id="hero">
-      <h1 id="title">Exciting Things Are Coming Your Way</h1>
-      <p class="sub">PollMitra — A smarter way to poll everything you love. Launching soon.</p>
-      <div class="sectionline">Entertainment • Sports • Tech • Lifestyle • More</div>
-      <div class="slogan">Your Voice. Your Vote. Your Platform.</div>
-    </section>
+  <!-- glass card hero -->
+  <main style="position:relative; z-index:4; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:40px 20px;">
+    <div class="card" role="main" aria-labelledby="title">
+      <section class="hero" id="hero">
+        <h1 id="title">Exciting Things Are Coming Your Way</h1>
+        <p class="lead">PollMitra — A smarter way to poll everything you love. Launching soon.</p>
+        <div class="sectionline" aria-hidden="true">Entertainment • Sports • Tech • Lifestyle • More</div>
+        <div class="slogan" aria-hidden="false">Your Voice. Your Vote. Your Platform.</div>
+      </section>
+    </div>
   </main>
 
-  <footer role="contentinfo">© PollMitra 2025</footer>
+  <footer>© PollMitra 2025</footer>
 
 <script>
-/* ---------- particles (lightweight) ---------- */
+/* ---------------- particles ---------------- */
 (() => {
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d', { alpha: true });
@@ -167,48 +226,36 @@
   canvas.width = w * DPR; canvas.height = h * DPR; canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
   ctx.scale(DPR, DPR);
 
-  // particle settings
-  const PARTICLE_COUNT = Math.round((w * h) / 12000); // scale with viewport
+  let PARTICLE_COUNT = Math.max(24, Math.round((w * h) / 12000));
   const particles = [];
-  const mouse = { x: w/2, y: h/2, vx:0, vy:0, down:false };
+  const mouse = { x: w/2, y: h/2 };
 
-  function rand(min, max){ return Math.random()*(max-min)+min; }
+  function rand(a,b){ return Math.random()*(b-a)+a; }
 
   class P {
-    constructor(){
-      this.reset(true);
-    }
+    constructor(){ this.reset(true); }
     reset(init=false){
-      this.x = rand(0, w);
-      this.y = rand(0, h);
-      this.vx = rand(-0.15, 0.15);
-      this.vy = rand(-0.05, 0.05);
-      this.size = rand(0.9, 3.0);
-      this.alpha = rand(0.06, 0.18);
-      this.color = `rgba(255,255,255,${this.alpha})`;
-      if(!init && Math.random()<0.01) {
-        this.x = rand(0, w);
-        this.y = -10;
-        this.vy = rand(0.2,0.6);
-      }
+      this.x = rand(0,w);
+      this.y = rand(0,h);
+      this.vx = rand(-0.12,0.12);
+      this.vy = rand(-0.04,0.04);
+      this.s = rand(0.9,3.0);
+      this.a = rand(0.06,0.18);
+      this.c = `rgba(255,255,255,${this.a})`;
+      if(!init && Math.random()<0.01){ this.y = -10; this.vy = rand(0.2,0.6); }
     }
     update(){
       this.x += this.vx;
       this.y += this.vy;
-
-      const dx = this.x - mouse.x;
-      const dy = this.y - mouse.y;
-      const d = Math.sqrt(dx*dx+dy*dy);
-      if(d < 120){
-        const f = (120 - d) / 120;
-        const angle = Math.atan2(dy, dx);
-        this.vx += Math.cos(angle) * f * 0.6;
-        this.vy += Math.sin(angle) * f * 0.6;
+      const dx = this.x - mouse.x, dy = this.y - mouse.y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if(d < 110){
+        const f = (110 - d) / 110;
+        const ang = Math.atan2(dy, dx);
+        this.vx += Math.cos(ang) * f * 0.5;
+        this.vy += Math.sin(ang) * f * 0.5;
       }
-
-      this.vx *= 0.995;
-      this.vy *= 0.995;
-
+      this.vx *= 0.994; this.vy *= 0.994;
       if(this.x < -20) this.x = w + 20;
       if(this.x > w + 20) this.x = -20;
       if(this.y > h + 40) this.reset();
@@ -216,104 +263,82 @@
     }
     draw(){
       ctx.beginPath();
-      ctx.fillStyle = this.color;
+      ctx.fillStyle = this.c;
       ctx.globalCompositeOperation = 'screen';
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+      ctx.arc(this.x, this.y, this.s, 0, Math.PI*2);
       ctx.fill();
     }
   }
 
-  function initParticles(){
+  function init(){
     particles.length = 0;
+    PARTICLE_COUNT = Math.max(24, Math.round((w*h)/12000));
     for(let i=0;i<PARTICLE_COUNT;i++) particles.push(new P());
   }
 
   function resize(){
-    w = canvas.width = innerWidth;
-    h = canvas.height = innerHeight;
+    w = canvas.width = innerWidth; h = canvas.height = innerHeight;
     canvas.width = w * DPR; canvas.height = h * DPR;
     canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
     ctx.setTransform(DPR,0,0,DPR,0,0);
-    initParticles();
+    init();
   }
 
-  function animate(){
-    ctx.clearRect(0,0,w,h);
-    const g = ctx.createLinearGradient(0,0,w,h);
-    g.addColorStop(0, 'rgba(60,120,160,0.02)');
-    g.addColorStop(1, 'rgba(20,30,40,0.02)');
-    ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, {passive:true});
+  window.addEventListener('resize', () => { clearTimeout(window._gd_r); window._gd_r = setTimeout(resize, 120); });
 
-    for(const p of particles){
-      p.update();
-      p.draw();
-    }
-    requestAnimationFrame(animate);
-  }
-
-  window.addEventListener('mousemove', (e)=>{
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-  }, {passive:true});
-
-  window.addEventListener('resize', () => {
-    clearTimeout(window._pd_r);
-    window._pd_r = setTimeout(resize, 120);
-  });
-
-  initParticles();
-  animate();
+  init();
+  (function loop(){ ctx.clearRect(0,0,w,h); for(const p of particles){ p.update(); p.draw(); } requestAnimationFrame(loop); })();
 })();
 
-/* ---------- interactive parallax for BG & hero ---------- */
+/* ---------------- parallax + interactions ---------------- */
 (() => {
   const bg = document.getElementById('bg');
   const hero = document.getElementById('hero');
   const logo = document.getElementById('logoEl');
-
-  function onMove(e){
-    const cx = innerWidth/2, cy = innerHeight/2;
-    const dx = (e.clientX - cx) / cx; // -1..1
-    const dy = (e.clientY - cy) / cy;
-    const tx = dx * 12;
-    const ty = dy * 8;
-    const rx = dy * 2;
-    const ry = dx * -2;
-    bg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(1.02)`;
-    hero.style.transform = `translate3d(${tx*0.4}px, ${ty*0.4}px, 0) rotateX(${rx}deg) rotateY(${ry}deg)`;
-    logo.style.transform = `translate3d(${tx*0.6}px, ${ty*0.6}px, 0) scale(${1 + Math.min(0.06, Math.abs(dx*0.04))})`;
-  }
-
-  let ttid;
+  // simple throttled pointer
+  let lt = 0;
   window.addEventListener('mousemove', (e)=>{
-    clearTimeout(ttid);
-    onMove(e);
-    ttid = setTimeout(()=>{}, 40);
+    const t = Date.now();
+    if(t - lt < 16) return; lt = t;
+    const cx = innerWidth/2, cy = innerHeight/2;
+    const dx = (e.clientX - cx) / cx; const dy = (e.clientY - cy) / cy;
+    const tx = dx * 12; const ty = dy * 8;
+    bg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(1.02)`;
+    hero.style.transform = `translate3d(${tx*0.35}px, ${ty*0.35}px, 0)`;
+    logo.style.transform = `translate3d(${tx*0.55}px, ${ty*0.55}px, 0)`;
   }, {passive:true});
 })();
 
-/* ---------- small logo hover scale effect ---------- */
+/* ---------------- logo intro animation ---------------- */
 (() => {
-  const logo = document.getElementById('logoEl');
-  const ring = logo.querySelector('.ring');
-  logo.addEventListener('mouseenter', ()=> {
-    logo.style.transform += ' scale(1.06)';
-    ring.style.opacity = '1';
-    ring.style.filter = 'blur(18px)';
-  });
-  logo.addEventListener('mouseleave', ()=> {
-    logo.style.transform = '';
-    ring.style.opacity = '0.85';
-    ring.style.filter = 'blur(12px)';
-  });
-})();
+  const logoWrap = document.getElementById('logoEl');
+  const svgPaths = logoWrap.querySelectorAll('svg.logo-svg path.reveal');
 
-/* ---------- reduce motion support ---------- */
-(function reduceMotion(){
+  // run after small delay for nicer effect
+  setTimeout(() => {
+    // add class to trigger CSS stroke-dashoffset animation
+    logoWrap.classList.add('intro');
+    // also scale the mark slightly for an intro pop
+    const mark = logoWrap.querySelector('.mark');
+    if(mark){
+      mark.animate([{ transform: 'scale(.6)' }, { transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 700, easing: 'cubic-bezier(.2,.9,.2,1)' });
+    }
+  }, 320);
+
+  // ensure reduced motion respects preference
   const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
   if(mq.matches){
-    document.querySelectorAll('.logo').forEach(el => el.style.animation = 'none');
-    // additional reductions could be added
+    logoWrap.classList.remove('intro');
+    svgPaths.forEach(p => { p.style.transition = 'none'; p.style.strokeDashoffset = '0'; });
+  }
+})();
+
+/* ---------------- accessible preferences ---------------- */
+(function reduceMotion(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    // stop heavy animations if user prefers reduced motion
+    document.querySelectorAll('.fog .f1, .fog .f2').forEach(el=>el.style.animation='none');
   }
 })();
 </script>

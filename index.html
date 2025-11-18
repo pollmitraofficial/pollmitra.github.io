@@ -1,166 +1,143 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PollMitra — Your Voice. Your Vote. Your Platform.</title>
-  <meta name="description" content="PollMitra — polls across Entertainment, Sports, Science, Tech and more. Coming Soon!" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PollMitra — Your Voice. Your Vote.</title>
+<meta name="description" content="PollMitra — polls across Entertainment · Sports · Science · Tech — Coming Soon" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#ffd166;
+    --muted:#c8d6df;
+    --white: #ffffff;
+    --black: #041824;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--white)}
+  a{color:inherit}
+  /* full-screen background */
+  .bg {
+    position:fixed; inset:0; z-index:0;
+    background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2400&auto=format&fit=crop&ixlib=rb-4.0.3&s=3a6f32dd18ad8d2b3a5a5c9b4a8d7f02');
+    background-size:cover; background-position:center center;
+    filter: saturate(0.9) contrast(0.9);
+    transform: translateZ(0);
+  }
+  /* subtle moving gradient overlay to mimic professional tone */
+  .overlay {
+    position:fixed; inset:0; z-index:1;
+    background: linear-gradient(180deg, rgba(2,11,20,0.65), rgba(2,11,20,0.6) 40%, rgba(2,11,20,0.55) 100%);
+    pointer-events:none;
+  }
+  /* container */
+  .wrap { position:relative; z-index:2; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 24px; box-sizing:border-box; }
+  .hero {
+    max-width:1200px; width:100%; display:flex; flex-direction:column; align-items:center; gap:30px;
+    text-align:center;
+  }
+  .brand { position:fixed; top:22px; left:28px; z-index:3; font-family:Inter;font-weight:700; letter-spacing:2px; color:var(--white); font-size:14px; opacity:0.95 }
+  /* main heading */
+  h1 { font-family: "Playfair Display", serif; font-weight:700; font-size:72px; margin:0; line-height:1; color:var(--white); text-shadow:0 10px 30px rgba(0,0,0,0.6) }
+  @media (max-width:900px){ h1 { font-size:40px } }
+  .sub { font-size:18px; color:var(--muted); max-width:820px; line-height:1.6; margin:0; text-shadow:none }
+  /* small highlight row */
+  .highlight { margin-top:6px; font-weight:600; color:var(--accent); letter-spacing:0.5px }
+  /* CTA / contact button */
+  .cta-row { margin-top:18px; display:flex; gap:14px; align-items:center; justify-content:center; flex-wrap:wrap }
+  .btn {
+    background:transparent; border:1px solid rgba(255,255,255,0.18); color:var(--white); padding:12px 18px; border-radius:10px; font-weight:600; text-decoration:none;
+    backdrop-filter: blur(6px); box-shadow: 0 8px 24px rgba(2,10,18,0.45); transition: all .25s ease;
+  }
+  .btn:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(2,10,18,0.55) }
+  .btn.primary {
+    background: linear-gradient(90deg,#ff7a7a,#ffb86b); border: none; color:#06121a;
+  }
 
-  <style>
-    :root{
-      --bg1:#00c2ff;
-      --bg2:#7be3ff;
-      --muted:#5b6b74;
-      --accent:#ff5a9b;
-      --accent2:#6d5cff;
-    }
-    *{box-sizing:border-box}
-    body {
-      margin:0;
-      font-family:"Inter",sans-serif;
-      background: linear-gradient(135deg,var(--bg1),var(--bg2),#eefaff);
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:40px 20px;
-      color:#072233;
-      overflow-x:hidden;
-    }
+  /* footer area */
+  footer { position:fixed; left:0; right:0; bottom:16px; z-index:3; display:flex; justify-content:space-between; align-items:center; padding:0 28px; color:var(--muted); font-size:13px; pointer-events:auto; }
+  .socials { display:flex; gap:10px }
+  .socials a { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; background:rgba(255,255,255,0.06); color:var(--white); text-decoration:none; border:1px solid rgba(255,255,255,0.03) }
 
-    .back-visual{
-      position:fixed; inset:0; z-index:0; pointer-events:none;
-      background:
-        radial-gradient(1200px 500px at 10% 10%, rgba(255,255,255,0.25), transparent 10%),
-        radial-gradient(900px 400px at 90% 90%, rgba(109,92,255,0.10), transparent 10%);
-      animation: slowShift 18s ease-in-out infinite;
-      opacity:0.95;
-    }
-    @keyframes slowShift {
-      0%{transform: translateY(0) scale(1)}
-      50%{transform: translateY(-8px) scale(1.03)}
-      100%{transform: translateY(0) scale(1)}
-    }
+  /* decorative divider */
+  .divider { width:60px; height:2px; background:rgba(255,255,255,0.06); margin:18px auto 0; border-radius:2px }
 
-    .wrap { z-index:3; max-width:1100px; width:100%; }
-    .hero {
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:32px;
-      padding:32px;
-    }
-    @media (max-width:900px){
-      .hero{grid-template-columns:1fr; text-align:center}
-    }
+  /* small contact box in page bottom center (desktop only) */
+  .contact {
+    position:fixed; left:50%; transform:translateX(-50%); bottom:84px; z-index:3; background: rgba(0,0,0,0.45); border-radius:10px; padding:10px 16px; color:var(--muted); display:flex; gap:10px; align-items:center; font-size:13px; border:1px solid rgba(255,255,255,0.05);
+    backdrop-filter: blur(6px);
+  }
+  @media (max-width:900px){ .contact{ display:none } }
 
-    .panel {
-      background:rgba(255,255,255,0.9);
-      border-radius:16px;
-      padding:36px;
-      box-shadow:0 20px 60px rgba(6,20,30,0.12);
-      border:1px solid rgba(255,255,255,0.6);
-      backdrop-filter:blur(6px);
-    }
+  /* entrance animations */
+  .hero > * { opacity:0; transform: translateY(8px); animation: fadeUp .8s ease forwards; }
+  .hero > *:nth-child(1){ animation-delay:.15s }
+  .hero > *:nth-child(2){ animation-delay:.25s }
+  .hero > *:nth-child(3){ animation-delay:.35s }
+  .hero > *:nth-child(4){ animation-delay:.45s }
+  @keyframes fadeUp { to { opacity:1; transform:none } }
 
-    h1 { font-size:40px; margin:0 0 12px; font-weight:800; }
-    .lead { color:var(--muted); margin-bottom:20px; }
+  /* subtle parallax on background when mouse moves */
+  .bg[data-offset] { transition: transform 0.25s ease-out; }
 
-    .rotator { font-weight:700; color:var(--accent2); font-size:20px; margin-bottom:16px;}
+  /* accessibility focus */
+  a:focus, button:focus { outline: 3px solid rgba(255,255,255,0.12); outline-offset:4px; }
 
-    .chip { 
-      background:white;
-      padding:10px 14px;
-      border-radius:999px;
-      font-weight:600;
-      box-shadow:0 6px 18px rgba(0,0,0,0.06);
-      display:inline-block;
-      margin:5px;
-    }
-
-    .visual { display:flex; flex-direction:column; align-items:center; gap:18px }
-    .card-visual{
-      width:100%; max-width:360px; height:320px;
-      border-radius:14px;
-      background: linear-gradient(180deg, rgba(13,41,64,0.06), rgba(255,255,255,0.25));
-      border:1px solid rgba(255,255,255,0.6);
-      box-shadow:0 12px 40px rgba(6,25,40,0.06);
-      padding:26px; text-align:center;
-    }
-
-    .socials a {
-      width:44px;height:44px;border-radius:10px;background:#fff;display:inline-flex;
-      align-items:center;justify-content:center;margin:5px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.06);
-      color:var(--accent2); text-decoration:none;
-    }
-
-    footer{ margin-top:20px; font-size:14px; color:var(--muted); }
-    .dot{ display:inline-block;width:8px;height:8px;background:var(--accent);
-      border-radius:50%;margin-left:10px; animation:pulse 2s infinite }
-    @keyframes pulse{50%{transform:scale(1.3)}}
-  </style>
+</style>
 </head>
-
 <body>
-<div class="back-visual"></div>
+  <div class="bg" id="bg"></div>
+  <div class="overlay" aria-hidden="true"></div>
 
-<div class="wrap">
-  <div class="hero">
-    <!-- Left Section -->
-    <section class="panel">
-      <h1>Your Voice. Your Vote. Your Platform.</h1>
-      <p class="lead">PollMitra — the smarter way to poll everything you love. We're building a vibrant, fast, and engaging platform for daily polls, hot takes & instant insights.</p>
+  <div class="brand">POLLMITRA.COM</div>
 
-      <div class="rotator">Polls for <span id="rot"></span><span class="dot"></span></div>
+  <main class="wrap" role="main" aria-labelledby="site-title">
+    <div class="hero">
+      <h1 id="site-title">Something Big Is Brewing</h1>
+      <p class="sub">PollMitra is building a modern poll platform — daily polls across <strong>Entertainment, Sports, Science</strong> and <strong>Tech</strong>. We’re polishing the experience to make voting fast, fun and trustworthy.</p>
 
       <div>
-        <span class="chip">Entertainment</span>
-        <span class="chip">Sports</span>
-        <span class="chip">Science</span>
-        <span class="chip">Technology</span>
-        <span class="chip">Lifestyle</span>
+        <div class="highlight">Your Voice. Your Vote. Your Platform.</div>
+        <div class="divider" aria-hidden="true"></div>
       </div>
 
-      <footer>© PollMitra 2025</footer>
-    </section>
-
-    <!-- Right Section Visual -->
-    <aside class="visual">
-      <div class="card-visual">
-        <h3 style="margin:0;">Exciting Polls Every Day</h3>
-        <p style="color:var(--muted);margin-top:6px">Vote • Compare • Discover</p>
-
-        <div class="socials">
-          <a href="#" aria-label="Instagram">IG</a>
-          <a href="#" aria-label="Twitter">X</a>
-          <a href="#" aria-label="YouTube">YT</a>
-          <a href="#" aria-label="LinkedIn">IN</a>
-        </div>
+      <div class="cta-row" role="group" aria-label="site actions">
+        <a class="btn primary" href="#contact" title="Contact">Contact Us</a>
+        <a class="btn" href="https://pollmitraofficial.github.io" target="_blank" rel="noopener">Preview (Demo)</a>
       </div>
-    </aside>
+    </div>
+  </main>
 
+  <div class="contact" id="contact">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="margin-right:8px"><path d="M2 3h20v18H2z" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="rgba(255,255,255,0.02)"></path><path d="M7 8h10M7 12h6" stroke="rgba(255,255,255,0.6)" stroke-width="1.6" stroke-linecap="round"></path></svg>
+    <div>
+      <div style="font-weight:700;color:var(--white)">Contact</div>
+      <div style="color:var(--muted)">hello@pollmitra.com</div>
+    </div>
   </div>
-</div>
+
+  <footer role="contentinfo">
+    <div>© PollMitra 2025</div>
+    <div class="socials" aria-hidden="false">
+      <a href="#" aria-label="Twitter">T</a>
+      <a href="#" aria-label="Instagram">I</a>
+      <a href="#" aria-label="YouTube">Y</a>
+    </div>
+  </footer>
 
 <script>
-  const words = ["Entertainment 🎬", "Sports 🏆", "Science 🔬", "Technology 💡", "Lifestyle ✨"];
-  let i = 0, c = 0, del = false;
-  const el = document.getElementById("rot");
-
-  function loop(){
-    let w = words[i];
-    if(!del){
-      c++; el.textContent = w.substring(0,c);
-      if(c === w.length){ del = true; setTimeout(loop,1000); return; }
-    } else {
-      c--; el.textContent = w.substring(0,c);
-      if(c === 0){ del = false; i=(i+1)%words.length; }
-    }
-    setTimeout(loop, del ? 50 : 100);
-  }
-  loop();
+  // tiny parallax effect: move background slightly with cursor
+  (function(){
+    const bg = document.getElementById('bg');
+    let lastX=0, lastY=0;
+    window.addEventListener('mousemove', e=>{
+      const cx = window.innerWidth/2, cy = window.innerHeight/2;
+      const dx = (e.clientX - cx) / cx; // -1..1
+      const dy = (e.clientY - cy) / cy;
+      const tx = dx * 10; // px
+      const ty = dy * 6;
+      bg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(1.02)`;
+    }, {passive:true});
+  })();
 </script>
-
 </body>
 </html>

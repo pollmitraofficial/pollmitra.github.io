@@ -9,11 +9,10 @@
 
 <style>
   :root{
-    --headline: #d5eaff;   /* Soft Ice Blue */
+    --headline: #d5eaff;   /* base ice blue */
     --accent:   #8bdcff;
     --muted:    #97a9b8;
     --glass:    rgba(255,255,255,0.06);
-    --glass-2:  rgba(255,255,255,0.03);
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0;background:#000;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--headline);-webkit-font-smoothing:antialiased}
@@ -41,43 +40,27 @@
     background: radial-gradient(40% 60% at 20% 40%, rgba(255,255,255,0.06), rgba(255,255,255,0) 50%);
     filter: blur(36px); transform: translate3d(0,0,0); opacity:0.85; animation: floatFog 28s linear infinite;
   }
-  .fog .f2 { top:20%; background: radial-gradient(50% 50% at 80% 60%, rgba(139,220,255,0.04), rgba(139,220,255,0) 40%); filter: blur(52px); opacity:0.7; animation-duration:36s; animation-direction:reverse; }
+  .fog .f2 { top:20%; background: radial-gradient(50% 50% at 80% 60%, rgba(139,220,255,0.04), rgba(139,220,255,0) 40%); filter: blur(52px); opacity:0.72; animation-duration:36s; animation-direction:reverse; }
   @keyframes floatFog { 0% { transform: translateX(-8%) translateY(0) scale(1); } 50% { transform: translateX(8%) translateY(-6%) scale(1.04); } 100% { transform: translateX(-8%) translateY(0) scale(1); } }
 
   canvas#particles { position:fixed; inset:0; z-index:3; pointer-events:none; display:block; }
 
-  /* BRAND (improved) */
+  /* BRAND */
   .brand {
-    position:fixed;
-    top:18px;
-    left:18px;
-    z-index:7;
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    font-family:Outfit, sans-serif;
-    font-weight:700;
-    color:var(--headline);
-    font-size:18px;                    /* increased size */
-    padding:8px 14px;                  /* pill padding */
-    border-radius:12px;                /* pill corner */
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); /* subtle glass */
+    position:fixed; top:18px; left:18px; z-index:7; display:inline-flex; align-items:center; gap:10px;
+    font-family:Outfit, sans-serif; font-weight:700; color:var(--headline); font-size:18px;
+    padding:8px 14px; border-radius:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
     border: 1px solid rgba(255,255,255,0.07);
     box-shadow: 0 6px 24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.02);
-    backdrop-filter: blur(6px) saturate(120%);
-    -webkit-backdrop-filter: blur(6px) saturate(120%);
+    backdrop-filter: blur(6px) saturate(120%); -webkit-backdrop-filter: blur(6px) saturate(120%);
     letter-spacing:1.2px;
   }
-  /* small decorative dot left of brand */
-  .brand .dot {
-    width:10px; height:10px; border-radius:50%;
-    background: linear-gradient(180deg, var(--headline), var(--accent));
-    box-shadow:0 6px 18px rgba(139,220,255,0.14);
-  }
+  .brand .dot { width:10px; height:10px; border-radius:50%; background: linear-gradient(180deg, var(--headline), var(--accent)); box-shadow:0 6px 18px rgba(139,220,255,0.14); }
 
   /* logo */
   .logo { position:fixed; top:16px; right:20px; z-index:6; width:88px; height:88px; display:flex; align-items:center; justify-content:center; transition: transform .35s ease; animation: floaty 6s ease-in-out infinite; }
-  .logo .mark { width:72px; height:72px; border-radius:14px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.05); box-shadow:0 18px 50px rgba(139,220,255,0.05); display:flex; align-items:center; justify-content:center; position:relative; }
+  .logo .mark { width:72px; height:72px; border-radius:14px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.05); box-shadow: 0 18px 50px rgba(139,220,255,0.05); display:flex; align-items:center; justify-content:center; position:relative; }
   .logo .ring { position:absolute; inset:-18px; border-radius:20px; background: radial-gradient(circle at 30% 30%, rgba(139,220,255,0.66), rgba(139,220,255,0.22) 24%, rgba(139,220,255,0.03) 46%, transparent 65%); filter: blur(14px); opacity:0.9; transition:opacity .35s; }
   @keyframes floaty { 0% { transform:translateY(0); } 50%{ transform:translateY(-10px); } 100%{ transform:translateY(0); } }
   svg.logo-svg path.reveal { stroke: url(#gA); stroke-width:6; stroke-linecap:round; stroke-linejoin:round; fill:none; stroke-dasharray:260; stroke-dashoffset:260; transition: stroke-dashoffset 1.2s cubic-bezier(.2,.9,.2,1); }
@@ -88,7 +71,28 @@
   @media(max-width:900px){ .card{ padding:36px 18px } }
 
   .hero { width:100%; display:block; }
-  h1 { margin:0; font-family:Outfit, sans-serif; font-weight:800; font-size:64px; color:var(--headline); text-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+
+  /* NEW: Attractive multicolor headline gradient + shimmer */
+  h1 {
+    margin:0;
+    font-family:Outfit, sans-serif;
+    font-weight:800;
+    font-size:64px;
+    line-height:1.02;
+    background: linear-gradient(90deg, #ff5ec4 0%, #ff8a5b 30%, #ffd36b 55%, #7fe7ff 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-shadow: 0 12px 40px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.6);
+    animation: gradientShift 7s linear infinite;
+    -webkit-font-smoothing:antialiased;
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+  }
   @media(max-width:900px){ h1{ font-size:36px } }
 
   .lead { margin:16px auto 0; max-width:880px; color:var(--muted); font-size:18px; line-height:1.6; text-shadow: 0 6px 20px rgba(0,0,0,0.6); }
@@ -104,8 +108,11 @@
   .card:hover h1{ transform: translateY(-4px) scale(1.01); transition:transform .3s ease; }
   .card:hover .lead{ transform: translateY(-2px); transition:transform .35s ease; }
 
-  /* reduced motion */
-  @media (prefers-reduced-motion: reduce) { .fog .f1, .fog .f2, .logo, svg.logo-svg path.reveal, .slogan::after { animation: none !important; transition: none !important; } }
+  /* accessibility: stop animation if user prefers reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .fog .f1, .fog .f2, .logo, svg.logo-svg path.reveal, .slogan::after, h1 { animation: none !important; transition: none !important; }
+    h1 { -webkit-text-fill-color: initial; color: var(--headline); background: none; text-shadow: 0 6px 18px rgba(0,0,0,0.8); }
+  }
 </style>
 </head>
 <body>
@@ -120,13 +127,11 @@
 
   <canvas id="particles"></canvas>
 
-  <!-- Improved Brand Badge -->
   <div class="brand" role="banner" aria-label="PollMitra">
     <span class="dot" aria-hidden="true"></span>
     <span>PollMitra</span>
   </div>
 
-  <!-- logo -->
   <div class="logo" id="logoEl" aria-hidden="false" role="img" aria-label="PollMitra logo">
     <div class="ring" aria-hidden="true"></div>
     <div class="mark" aria-hidden="true">
@@ -243,7 +248,7 @@
     const t = Date.now(); if(t - lt < 16) return; lt = t;
     const cx = innerWidth/2, cy = innerHeight/2;
     const dx = (e.clientX - cx) / cx; const dy = (e.clientY - cy) / cy;
-    const tx = dx * 12; const ty = dy * 8; const rx = dy * 2; const ry = dx * -2;
+    const tx = dx * 12; const ty = dy * 8;
     bg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(1.02)`;
     hero.style.transform = `translate3d(${tx*0.35}px, ${ty*0.35}px, 0)`;
     logo.style.transform = `translate3d(${tx*0.55}px, ${ty*0.55}px, 0)`;
@@ -268,7 +273,7 @@
   }
 })();
 
-/* ---------- reduced-motion support ---------- */
+/* ---------- reduced motion ---------- */
 (function(){ if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){ document.querySelectorAll('.fog .f1, .fog .f2').forEach(el=>el.style.animation='none'); } })();
 </script>
 

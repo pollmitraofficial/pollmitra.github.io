@@ -1,225 +1,166 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PollMitra | Coming Soon</title>
+  <title>PollMitra — Your Voice. Your Vote. Your Platform.</title>
+  <meta name="description" content="PollMitra — polls across Entertainment, Sports, Science, Tech and more. Coming Soon!" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* --- page layout / background --- */
     :root{
-      --accent-1:#00d4ff;
-      --accent-2:#0077ff;
-      --card-bg: rgba(255,255,255,0.85);
-      --muted:#46607a;
+      --bg1:#00c2ff;
+      --bg2:#7be3ff;
+      --muted:#5b6b74;
+      --accent:#ff5a9b;
+      --accent2:#6d5cff;
     }
-    html,body{height:100%;margin:0;font-family:'Poppins',Arial,sans-serif;-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
-    body{
+    *{box-sizing:border-box}
+    body {
+      margin:0;
+      font-family:"Inter",sans-serif;
+      background: linear-gradient(135deg,var(--bg1),var(--bg2),#eefaff);
+      min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      background: linear-gradient(135deg, #e6fbff 0%, #d9f7ff 25%, #d6f2ff 50%, #ffffff 100%);
-      background-size:400% 400%;
-      animation: gradientShift 12s ease infinite;
-      color:#0b2130;
-    }
-    @keyframes gradientShift{
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
+      padding:40px 20px;
+      color:#072233;
+      overflow-x:hidden;
     }
 
-    /* --- centered card --- */
-    .card {
-      width:92%;
-      max-width:900px;
-      background:var(--card-bg);
-      border-radius:18px;
+    .back-visual{
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(1200px 500px at 10% 10%, rgba(255,255,255,0.25), transparent 10%),
+        radial-gradient(900px 400px at 90% 90%, rgba(109,92,255,0.10), transparent 10%);
+      animation: slowShift 18s ease-in-out infinite;
+      opacity:0.95;
+    }
+    @keyframes slowShift {
+      0%{transform: translateY(0) scale(1)}
+      50%{transform: translateY(-8px) scale(1.03)}
+      100%{transform: translateY(0) scale(1)}
+    }
+
+    .wrap { z-index:3; max-width:1100px; width:100%; }
+    .hero {
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:32px;
+      padding:32px;
+    }
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr; text-align:center}
+    }
+
+    .panel {
+      background:rgba(255,255,255,0.9);
+      border-radius:16px;
       padding:36px;
-      box-shadow: 0 8px 30px rgba(6,25,40,0.12);
-      text-align:center;
-      position:relative;
-      overflow:hidden;
-      backdrop-filter: blur(6px);
+      box-shadow:0 20px 60px rgba(6,20,30,0.12);
+      border:1px solid rgba(255,255,255,0.6);
+      backdrop-filter:blur(6px);
     }
 
-    h1{font-size:44px;margin:6px 0 10px;letter-spacing:-0.02em}
-    .sub { color:var(--muted); font-size:18px; margin-bottom:22px; }
-    .typewriter { font-weight:700; font-size:22px; color:#04385a; height:34px; margin-bottom:26px; }
+    h1 { font-size:40px; margin:0 0 12px; font-weight:800; }
+    .lead { color:var(--muted); margin-bottom:20px; }
 
-    /* --- social icons row --- */
-    .socials {
-      display:flex;
-      gap:14px;
-      justify-content:center;
-      margin-top:18px;
-      margin-bottom:8px;
-    }
-    .social {
-      width:44px;height:44px;border-radius:10px;
-      display:inline-flex;align-items:center;justify-content:center;
-      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
-      box-shadow: 0 3px 10px rgba(6,25,40,0.08);
-      transition: transform .18s ease, box-shadow .18s ease;
-      color:var(--accent-2);
-      text-decoration:none;
-    }
-    .social:hover{ transform: translateY(-6px); box-shadow:0 10px 25px rgba(4,56,90,0.12); }
+    .rotator { font-weight:700; color:var(--accent2); font-size:20px; margin-bottom:16px;}
 
-    /* --- footer --- */
-    footer{
-      margin-top:20px;
-      font-size:13px;color:var(--muted);
-      display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+    .chip { 
+      background:white;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:600;
+      box-shadow:0 6px 18px rgba(0,0,0,0.06);
+      display:inline-block;
+      margin:5px;
     }
-    .brand { font-weight:600; color:#073447; }
-    .copy { opacity:0.85; }
 
-    /* --- loading overlay --- */
-    .loader-wrap {
-      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.65));
-      z-index:9999; transition:opacity .4s ease, visibility .4s ease;
+    .visual { display:flex; flex-direction:column; align-items:center; gap:18px }
+    .card-visual{
+      width:100%; max-width:360px; height:320px;
+      border-radius:14px;
+      background: linear-gradient(180deg, rgba(13,41,64,0.06), rgba(255,255,255,0.25));
+      border:1px solid rgba(255,255,255,0.6);
+      box-shadow:0 12px 40px rgba(6,25,40,0.06);
+      padding:26px; text-align:center;
     }
-    .loader {
-      display:flex;flex-direction:column;align-items:center;gap:12px;
-      padding:18px 22px;border-radius:14px;background:#ffffff;border:1px solid rgba(7,55,80,0.04);
-      box-shadow:0 12px 40px rgba(4,56,90,0.08);
-    }
-    .spinner {
-      width:58px;height:58px;border-radius:50%;border:6px solid #e6f7ff;border-top-color:var(--accent-2); animation:spin 1s linear infinite;
-    }
-    @keyframes spin{ to { transform:rotate(360deg); } }
 
-    .loader .msg { color:#08324b; font-weight:600; letter-spacing:0.01em; }
-
-    /* --- responsive --- */
-    @media (max-width:600px){
-      h1{font-size:28px}
-      .typewriter{font-size:18px;height:auto}
-      .social{width:40px;height:40px}
-      .card{padding:20px;border-radius:14px}
+    .socials a {
+      width:44px;height:44px;border-radius:10px;background:#fff;display:inline-flex;
+      align-items:center;justify-content:center;margin:5px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.06);
+      color:var(--accent2); text-decoration:none;
     }
+
+    footer{ margin-top:20px; font-size:14px; color:var(--muted); }
+    .dot{ display:inline-block;width:8px;height:8px;background:var(--accent);
+      border-radius:50%;margin-left:10px; animation:pulse 2s infinite }
+    @keyframes pulse{50%{transform:scale(1.3)}}
   </style>
 </head>
+
 <body>
+<div class="back-visual"></div>
 
-  <!-- Loading overlay (will hide automatically) -->
-  <div id="loaderWrap" class="loader-wrap" aria-hidden="false">
-    <div class="loader" role="status" aria-live="polite">
-      <div class="spinner" aria-hidden="true"></div>
-      <div class="msg">Preparing PollMitra for takeoff…</div>
-    </div>
+<div class="wrap">
+  <div class="hero">
+    <!-- Left Section -->
+    <section class="panel">
+      <h1>Your Voice. Your Vote. Your Platform.</h1>
+      <p class="lead">PollMitra — the smarter way to poll everything you love. We're building a vibrant, fast, and engaging platform for daily polls, hot takes & instant insights.</p>
+
+      <div class="rotator">Polls for <span id="rot"></span><span class="dot"></span></div>
+
+      <div>
+        <span class="chip">Entertainment</span>
+        <span class="chip">Sports</span>
+        <span class="chip">Science</span>
+        <span class="chip">Technology</span>
+        <span class="chip">Lifestyle</span>
+      </div>
+
+      <footer>© PollMitra 2025</footer>
+    </section>
+
+    <!-- Right Section Visual -->
+    <aside class="visual">
+      <div class="card-visual">
+        <h3 style="margin:0;">Exciting Polls Every Day</h3>
+        <p style="color:var(--muted);margin-top:6px">Vote • Compare • Discover</p>
+
+        <div class="socials">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Twitter">X</a>
+          <a href="#" aria-label="YouTube">YT</a>
+          <a href="#" aria-label="LinkedIn">IN</a>
+        </div>
+      </div>
+    </aside>
+
   </div>
+</div>
 
-  <!-- Main card -->
-  <main class="card" role="main" aria-labelledby="main-heading">
-     <h1 id="main-heading">Your Voice. Your Vote. Your Platform.</h1>
-     <div class="sub">PollMitra — A smarter way to poll everything you love. Coming Soon.</div>
+<script>
+  const words = ["Entertainment 🎬", "Sports 🏆", "Science 🔬", "Technology 💡", "Lifestyle ✨"];
+  let i = 0, c = 0, del = false;
+  const el = document.getElementById("rot");
 
-    <div class="typewriter" id="typewriter" aria-live="polite" aria-atomic="true"></div>
+  function loop(){
+    let w = words[i];
+    if(!del){
+      c++; el.textContent = w.substring(0,c);
+      if(c === w.length){ del = true; setTimeout(loop,1000); return; }
+    } else {
+      c--; el.textContent = w.substring(0,c);
+      if(c === 0){ del = false; i=(i+1)%words.length; }
+    }
+    setTimeout(loop, del ? 50 : 100);
+  }
+  loop();
+</script>
 
-    <!-- Social icons -->
-    <nav class="socials" aria-label="Follow PollMitra on social media">
-      <!-- Replace href="#" with your real social links when ready -->
-      <a class="social" href="#" title="Instagram" aria-label="Instagram">
-        <!-- Instagram SVG -->
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M17.8 6.2h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-
-      <a class="social" href="#" title="Twitter" aria-label="Twitter">
-        <!-- Twitter SVG -->
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M23 4.5c-.7.3-1.4.6-2.2.7.8-.5 1.4-1.4 1.7-2.4-.8.5-1.6.9-2.5 1.1C19.4 3 18.3 2.5 17 2.5c-2.3 0-4 2.1-3.3 4.2C10.6 6.4 7.4 4.8 5 2.6c-.9 1.5-.4 3.5 1.2 4.5-.6 0-1.3-.2-1.8-.5v.1c0 2 1.4 3.8 3.4 4.2-.5.1-1 .1-1.6.1-.4 0-.8 0-1.2-.1.8 2.4 3.1 4.1 5.8 4.2-2 1.6-4.5 2.6-7.2 2.6-.5 0-1 0-1.5-.1 2.6 1.7 5.8 2.6 9.2 2.6 11 0 17-9.2 17-17v-.8c1.2-.9 2.1-1.9 2.9-3z" stroke="currentColor" stroke-width="0.6" fill="currentColor"/>
-        </svg>
-      </a>
-
-      <a class="social" href="#" title="YouTube" aria-label="YouTube">
-        <!-- YouTube SVG -->
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M22 8s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.2-1C15.6 4 12 4 12 4s-3.6 0-6.9.7c-.5.1-1.4.1-2.2 1C2.2 6.4 2 8 2 8S2 9.8 2 11.6v.8C2 14 2.2 15.6 2.2 15.6s.2 1.6.8 2.3c.8.9 1.9.9 2.5 1 1.8.3 7.1.7 7.1.7s3.6 0 6.9-.7c.5-.1 1.4-.1 2.2-1 .6-.7.8-2.3.8-2.3s.2-1.8.2-3.6v-.8C22 9.8 22 8 22 8z" stroke="currentColor" stroke-width="0.4" fill="currentColor"/>
-          <path d="M10 14V8l5 3-5 3z" fill="#fff"/>
-        </svg>
-      </a>
-
-      <a class="social" href="#" title="Facebook" aria-label="Facebook">
-        <!-- Facebook SVG -->
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M22 12.1C22 6.4 17.5 2 12 2S2 6.4 2 12.1C2 17 5.8 21 10.6 21v-6.5H8.2V12h2.4V9.7c0-2.4 1.4-3.7 3.6-3.7 1 0 2 .1 2 .1v2.2h-1.1c-1.1 0-1.4.7-1.4 1.4V12h2.4l-.4 2.5h-2V21C18.2 21 22 17 22 12.1z" stroke="currentColor" stroke-width="0.3" fill="currentColor"/>
-        </svg>
-      </a>
-
-      <a class="social" href="#" title="LinkedIn" aria-label="LinkedIn">
-        <!-- LinkedIn SVG -->
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M4.98 3.5C4.98 4.6 4.07 5.5 2.99 5.5 1.92 5.5 1 4.6 1 3.5 1 2.4 1.92 1.5 2.99 1.5 4.07 1.5 4.98 2.4 4.98 3.5zM.9 8.98h4.2V24H.9zM8.5 8.98h4v2.04h.06c.56-1.05 1.92-2.16 3.96-2.16 4.24 0 5.02 2.79 5.02 6.42V24h-4.2v-7.02c0-1.67-.03-3.82-2.33-3.82-2.33 0-2.68 1.82-2.68 3.7V24H8.5z" fill="currentColor"/>
-        </svg>
-      </a>
-    </nav>
-
-    <footer>
-      <div class="brand">PollMitra</div>
-      <div class="copy">© PollMitra 2025</div>
-    </footer>
-  </main>
-
-  <script>
-    /* --- loader logic --- */
-    (function(){
-      const loader = document.getElementById('loaderWrap');
-      // simulate short load time, then hide
-      window.addEventListener('load', hideLoader);
-      // also safety fallback in case load event is quick or not fired
-      setTimeout(hideLoader, 900);
-
-      function hideLoader(){
-        if (!loader) return;
-        loader.style.opacity = '0';
-        loader.style.visibility = 'hidden';
-        loader.setAttribute('aria-hidden','true');
-      }
-    })();
-
-    /* --- typewriter --- */
-    (function(){
-      const words = [
-        "Entertainment 🎬",
-        "Sports 🏆",
-        "Science 🔬",
-        "Technology 💡",
-        "Politics 🗳️",
-        "Lifestyle ✨",
-        "And many more..."
-      ];
-      const el = document.getElementById('typewriter');
-      let wi = 0, ci = 0, deleting = false;
-
-      function tick(){
-        let word = words[wi];
-        if (!deleting){
-          ci++;
-          el.textContent = word.substring(0,ci);
-          if (ci === word.length){
-            deleting = true;
-            setTimeout(tick, 1100);
-            return;
-          }
-        } else {
-          ci--;
-          el.textContent = word.substring(0,ci);
-          if (ci === 0){
-            deleting = false;
-            wi = (wi + 1) % words.length;
-          }
-        }
-        setTimeout(tick, deleting ? 60 : 120);
-      }
-      tick();
-    })();
-  </script>
 </body>
 </html>
